@@ -32,6 +32,20 @@ app.use("/test/:userID/:name/:password", (req, res) => {
     res.send("Hello from the server!");
 });
 
+app.use(
+    "/try",
+    (req, res, next) => {
+        console.log("Handeling the route 1");
+        
+        next();
+        res.send("Response 1");
+    },  
+    (req, res) => {
+        console.log("Handeling the route 2");
+        res.send("Response 2");
+    }
+);
+
 app.listen(3000, () => {
     console.log("server is listening on port 3000");
 });
