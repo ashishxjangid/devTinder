@@ -69,7 +69,7 @@ app.use("/admin", (req, res, next) => {
     else{
         res.status(401).send("Unauthorized request");
     }
-})
+});
 
 app.get("/admin/getAllData", (req, res) => {
     res.send("All data sent");
@@ -77,6 +77,16 @@ app.get("/admin/getAllData", (req, res) => {
 
 app.get("/admin/deleteUser", (req, res) => {
     res.send("deleted user");
+});
+ 
+app.get("/getUserData", (req, res) => {
+    try{
+        //logic of DB call and get user data
+        throw new Error("JHSABHJVS");
+        res.send("User data sent");
+    } catch (err) {
+        res.status(500).send("Some error contact support team");
+    }
 });
 
 app.listen(3000, () => {
