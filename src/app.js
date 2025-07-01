@@ -1,5 +1,7 @@
 const express = require("express");
 
+const connectDB= require("./config/database");
+
 const app = express();
 
 //request handler function
@@ -60,7 +62,7 @@ app.use(
 
 //Handle auth middleware for get, post..... requests
 app.use("/admin", (req, res, next) => {
-    console.log("Admin auth is getting cheked");
+    console.log("Admin auth is getting checked");
     const token= "xyz";
     const isAdminAuthorized= token==="xyz";
     if(isAdminAuthorized){
@@ -89,6 +91,34 @@ app.get("/getUserData", (req, res) => {
     }
 });
 
-app.listen(3000, () => {
-    console.log("server is listening on port 3000");
+const User = require("./models/user");
+
+app.post("/signup", async (req, res) => {
+    //creating a new instance of user model
+    const user = new User({
+        firstName: "Lamine",
+        lastName: "Yamal",
+        emailId: "yamal19@gmail.com",
+        password: "12345678",
+    });
+
+    try {
+        await user.save();
+        res.send("User added successfully");
+    }
+    catch(err){
+        res.status(400).send("Error saving the User " + err.message);
+    }
 });
+
+connectDB()
+.then(() => {
+    console.log("Database connection established");
+    app.listen(3000, () => {
+        console.log("server is listening on port 3000");
+    }); 
+})
+.catch((err) => {
+    console.error("Dtabase cannot be connected");
+});
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              
