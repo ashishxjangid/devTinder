@@ -1,106 +1,14 @@
 const express = require("express");
-
-const connectDB= require("./config/database");
-
 const app = express();
 
-//request handler function
-
-// app.use("/user", (req,res) => {
-//     res.send("HAHAHAHHAA");
-// });
-
-//this will only handle get call to the /user
-app.get("/user", (req,res) => {
-    res.send({firstname: "Ashish", lastname: "Jangid"});
-});
-
-app.post("/user", (req,res) => {
-    //saving data to database
-    res.send("data successfully saved to the database");
-});
-
-app.delete("/user", (req,res) => {
-    res.send("deleted successfully");
-});
-
-//this will match all the HTTP method API calls to the /test
-// app.use("/test", (req, res) => {
-//     res.send("Hello from the server!");
-// });
-
-app.use("/test/:userID/:name/:password", (req, res) => {
-    console.log(req.params);
-    res.send("Hello from the server!");
-});
-
-app.use(
-    "/try",
-    (req, res, next) => {
-        console.log("Handeling the route 1");
-        
-        next();
-        res.send("Response 1");
-    },  
-    (req, res) => {
-        console.log("Handeling the route 2");
-        res.send("Response 2");
-    }
-);
-
-// app.get("/admin/getalldata", (req, res) => {
-//     //logic of checking if the request is authorized
-//     const token= "xyza";
-//     const isAdminAuthorized= token==="xyz";
-//     if(isAdminAuthorized){
-//         res.send("All data sent");
-//     } 
-//     else{
-//         res.status(401).send("Unauthorized request");
-//     }
-// });
-
-//Handle auth middleware for get, post..... requests
-app.use("/admin", (req, res, next) => {
-    console.log("Admin auth is getting checked");
-    const token= "xyz";
-    const isAdminAuthorized= token==="xyz";
-    if(isAdminAuthorized){
-        next();
-    }
-    else{
-        res.status(401).send("Unauthorized request");
-    }
-});
-
-app.get("/admin/getAllData", (req, res) => {
-    res.send("All data sent");
-});
-
-app.get("/admin/deleteUser", (req, res) => {
-    res.send("deleted user");
-});
- 
-app.get("/getUserData", (req, res) => {
-    try{
-        //logic of DB call and get user data
-        throw new Error("JHSABHJVS");
-        res.send("User data sent");
-    } catch (err) {
-        res.status(500).send("Some error contact support team");
-    }
-});
-
+const connectDB= require("./config/database");
 const User = require("./models/user");
+app.use(express.json());
+//this middleware will convert json data into JS object
 
 app.post("/signup", async (req, res) => {
     //creating a new instance of user model
-    const user = new User({
-        firstName: "Lamine",
-        lastName: "Yamal",
-        emailId: "yamal19@gmail.com",
-        password: "12345678",
-    });
+    const user = new User(req.body);
 
     try {
         await user.save();
