@@ -103,7 +103,7 @@ app.post("/signup", async (req, res) => {
         res.send("User added successfully");
     }
     catch(err){
-        res.status(400).send("Error saving the User " + err.message);
+        res.status(400).send("Error saving the User: " + err.message);
     }
 });
 
