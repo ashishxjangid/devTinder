@@ -10,6 +10,7 @@ const userSchema = new mongoose.Schema({
     },
     lastName: {
         type: String,
+        required: true,
         minLength: 4,
         maxLength: 50
     },
@@ -56,7 +57,7 @@ const userSchema = new mongoose.Schema({
     },
     photoUrl: {
         type: String,
-        default: "xhbfdkjfs37$jghv",
+        default: "https://www.example.com/images/sample.jpg$jghv",
         validate(value){
             if(!validator.isURL(value)){
                 throw new Error("Invalid photo url: "+ value);
