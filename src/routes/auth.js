@@ -40,7 +40,7 @@ authRouter.post("/login", async (req,res) => {
 
             //add the token to the cookie and send the response back to the user
             res.cookie("token", token);
-            res.send("login successfull");
+            res.send("login successful");
         } else{
             throw new Error("Invalid credentials");
         } 
@@ -49,5 +49,10 @@ authRouter.post("/login", async (req,res) => {
         res.status(400).send("ERROR: "+ err.message);
     }
 });
+
+authRouter.post("/logout", async(req, res) => {
+    res.cookie("token", null, { expires: new Date(Date.now())});
+    res.send("logout successful!");
+})
 
 module.exports = authRouter;
