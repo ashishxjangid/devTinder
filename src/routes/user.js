@@ -50,7 +50,7 @@ userRouter.get("/user/connections", userAuth, async (req, res) => {
 userRouter.get("/user/feed", userAuth, async (req, res) => {
     try {
         const loggedInUser = req.user;
-        //user should see all the user cards expect
+        //user should see all the user cards except
         //his own card and all the requests in which he is involved
 
         const page = parseInt(req.query.page) || 1;
